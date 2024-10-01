@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < X_limit; ++i) {
             global_grid[i] = new int[Y_limit]();
         }
-        read_input_file(input_file_name, global_grid, X_limit, Y_limit);
+        read_input_file(global_grid, input_file_name);
     }
 
     for (int i = 0; i < local_X_limit; i++) {
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 
     double start_time = MPI_Wtime();
 
-    for (int numg = 0; gen < num_of_generations; numg++) {
+    for (int numg = 0; numg < num_of_generations; numg++) {
         int up = (rank == 0) ? MPI_PROC_NULL : rank - 1;              // Up neighbor (if at top, use MPI_PROC_NULL)
         int down = (rank == size - 1) ? MPI_PROC_NULL : rank + 1;     // Down neighbor (if at bottom, use MPI_PROC_NULL)
 
