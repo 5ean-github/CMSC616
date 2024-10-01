@@ -222,7 +222,7 @@ int main(int argc, char *argv[]) {
         printf("Min Runtime: %f seconds\n", min_runtime);
         printf("Max Runtime: %f seconds\n", max_runtime);
         printf("Avg Runtime: %f seconds\n", avg_runtime);
-        printf("?")
+        printf("?");
     }
 
     for (int i = 0; i < local_X_limit; i++) {
