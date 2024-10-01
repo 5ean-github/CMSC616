@@ -228,6 +228,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < local_X_limit; i++) {
         MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
     }
+    if (rank == 0)
     write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
     // Clean up
