@@ -41,13 +41,13 @@ void read_input_file(int **life, string const &input_file_name) {
  * Writes out the final state of the 2D matrix to a csv file. 
  */
 void write_output(int **result_matrix, int X_limit, int Y_limit,
-                  string const &input_name, int num_of_generations) {
+                  string const &input_name, int num_of_generations, int size) {
     
     // Open the output file for writing.
     ofstream output_file;
     string input_file_name = input_name.substr(0, input_name.length() - 5);
-    output_file.open(input_file_name + "." + to_string(num_of_generations) +
-                    ".csv");
+    output_file.open(input_file_name + "." + to_string(num_of_generations) + "." + to_string(size) + 
+                    "_parallel.csv");
     if (!output_file.is_open())
         perror("Output file cannot be opened");
     
@@ -227,7 +227,7 @@ int main(int argc, char *argv[]) {
         MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
     }
 
-    write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations);
+    write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
     // Clean up
     for (int i = 0; i < local_X_limit; i++) {
