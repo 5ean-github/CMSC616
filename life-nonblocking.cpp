@@ -222,12 +222,12 @@ int main(int argc, char *argv[]) {
         printf("Min Runtime: %f seconds\n", min_runtime);
         printf("Max Runtime: %f seconds\n", max_runtime);
         printf("Avg Runtime: %f seconds\n", avg_runtime);
+        printf("?")
     }
 
     for (int i = 0; i < local_X_limit; i++) {
         MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
     }
-    printf("456");
     write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
     // Clean up
