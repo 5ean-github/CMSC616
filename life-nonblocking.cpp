@@ -200,8 +200,9 @@ int main(int argc, char *argv[]) {
             }
             }
         }
-        printf("%d",rank);
+        
     }
+    printf("%d",rank);
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
 
