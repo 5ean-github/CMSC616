@@ -119,6 +119,9 @@ int main(int argc, char *argv[]) {
     int* top_ghost_row = new int[Y_limit];
     int* bottom_ghost_row = new int[Y_limit];
 
+    printf("Rank %d\n", rank);
+    fflush(stdout);
+
     double start_time = MPI_Wtime();
 
     for (int numg = 0; numg < num_of_generations; numg++) {
@@ -202,7 +205,6 @@ int main(int argc, char *argv[]) {
         }
         
     }
-    printf("%d",rank);
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
 
