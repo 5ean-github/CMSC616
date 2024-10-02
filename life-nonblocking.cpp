@@ -141,15 +141,13 @@ int main(int argc, char *argv[]) {
                 previous_life[i][j + 1] = local_grid[i][j];
             }
         }
-        if (rank==1 && numg == 17){
-            printf("%d\n",local_grid[4][17]);
-            fflush(stdout);
-        }
-        if (rank==1 && numg == 17){
-            printf("%d\n",previous_life[4][18]);
-            fflush(stdout);
-        }
 
+        if (rank==1 && numg == 17){
+            printf("%d\n",rank);
+            printf("%d",local_grid[4][17]);
+            fflush(stdout);
+        }
+        
         //previous_life: local_X_limit*(Y_limit+2)
         int neighbors = 0;
         for (int i = 1; i < local_X_limit - 1; i++) {
@@ -209,6 +207,11 @@ int main(int argc, char *argv[]) {
                 local_grid[local_X_limit-1][j] = 0;
             }
             }
+        }
+        if (rank==1 && numg == 16){
+            printf("%d\n",rank);
+            printf("%d",local_grid[4][17]);
+            fflush(stdout);
         }
         
     }
