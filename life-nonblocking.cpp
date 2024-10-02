@@ -48,7 +48,6 @@ void write_output(int **result_matrix, int X_limit, int Y_limit,
     string input_file_name = input_name.substr(0, input_name.length() - 5);
     output_file.open(input_file_name + "." + to_string(num_of_generations) + "." + to_string(size) + 
                     "_parallel.csv");
-    cout << 123;
     if (!output_file.is_open())
         perror("Output file cannot be opened");
     
@@ -160,10 +159,6 @@ int main(int argc, char *argv[]) {
                 if (neighbors != 2 && neighbors != 3) {
                     local_grid[i][j] = 0;
                 }
-                
-                if (numg == 16 && rank==4){
-                    if (i==4 && j==17)
-                    cout << local_grid[i][j];
                 }
             }
         }
@@ -227,7 +222,6 @@ int main(int argc, char *argv[]) {
         printf("Min Runtime: %f seconds\n", min_runtime);
         printf("Max Runtime: %f seconds\n", max_runtime);
         printf("Avg Runtime: %f seconds\n", avg_runtime);
-        printf("?");
     }
 
     for (int i = 0; i < local_X_limit; i++) {
@@ -255,4 +249,4 @@ int main(int argc, char *argv[]) {
     MPI_Finalize();
     return 0;
 }
-}
+
