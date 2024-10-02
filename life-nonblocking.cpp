@@ -201,7 +201,7 @@ int main(int argc, char *argv[]) {
             }
             }
         }
-        if (rank==4 && numg == 16){
+        if (rank==1 && numg == 16){
             printf("%d\n",rank);
             printf("%d",local_grid[4][17]);
             fflush(stdout);
