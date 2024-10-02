@@ -201,8 +201,11 @@ int main(int argc, char *argv[]) {
             }
             }
         }
-        printf("Rank %d\n", rank);
-        fflush(stdout);
+        if (rank==4 && numg == 17){
+            printf("%d",local_grid[4][17]);
+            fflush(stdout);
+        }
+        
     }
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
