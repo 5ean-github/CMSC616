@@ -119,8 +119,6 @@ int main(int argc, char *argv[]) {
     int* top_ghost_row = new int[Y_limit];
     int* bottom_ghost_row = new int[Y_limit];
 
-    printf("Rank %d\n", rank);
-    fflush(stdout);
 
     double start_time = MPI_Wtime();
 
@@ -203,7 +201,8 @@ int main(int argc, char *argv[]) {
             }
             }
         }
-        
+        printf("Rank %d\n", rank);
+        fflush(stdout);
     }
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
