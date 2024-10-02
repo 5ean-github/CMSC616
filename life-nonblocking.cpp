@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
                 if (neighbors != 2 && neighbors != 3) {
                     local_grid[i][j] = 0;
                 }
-                printf("%d",rank);
+                
                 if (numg == 16 && rank==4){
                     if (i==4 && j==17)
                     cout << local_grid[i][j];
@@ -205,6 +205,7 @@ int main(int argc, char *argv[]) {
             }
             }
         }
+        printf("%d",rank);
     }
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
