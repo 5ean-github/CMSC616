@@ -142,10 +142,17 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        if (rank==1 && numg == 17){
-            printf("%d\n",rank);
-            printf("%d",local_grid[4][17]);
+        if (rank==1){
+            printf("%d\n",numg);
             fflush(stdout);
+            for (int i=0;i<local_X_limit;i++){
+                for (int j=0;j<Y_limit;j++){
+                    printf("%d ",local_grid[i][j]);
+                    fflush(stdout);
+                }
+                printf("\n");
+                fflush(stdout);
+            }
         }
         
         //previous_life: local_X_limit*(Y_limit+2)
