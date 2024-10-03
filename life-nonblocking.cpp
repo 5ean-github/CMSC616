@@ -43,6 +43,8 @@ void read_input_file(int **life, string const &input_file_name) {
 void write_output(int **result_matrix, int X_limit, int Y_limit,
                   string const &input_name, int num_of_generations, int size) {
     
+    printf("asdfiyugas");
+
     // Open the output file for writing.
     ofstream output_file;
     string input_file_name = input_name.substr(0, input_name.length() - 5);
@@ -51,7 +53,6 @@ void write_output(int **result_matrix, int X_limit, int Y_limit,
     if (!output_file.is_open())
         perror("Output file cannot be opened");
     
-    printf("asdfiyugas");
 
     // Output each live cell on a new line. 
     for (int i = 0; i < X_limit; i++) {
