@@ -205,15 +205,9 @@ int main(int argc, char *argv[]) {
         }
         if (rank==1 && numg == 18){
             printf("%d\n",numg);
+            printf("%d ",local_grid[8][17]);
+            printf("%d ",local_grid[8][18]);
             fflush(stdout);
-            for (int i=0;i<local_X_limit;i++){
-                for (int j=0;j<25;j++){
-                    printf("%d ",local_grid[i][j]);
-                    fflush(stdout);
-                }
-                printf("\n");
-                fflush(stdout);
-            }
         }
         
     }
