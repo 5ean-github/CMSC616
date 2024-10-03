@@ -244,20 +244,20 @@ int main(int argc, char *argv[]) {
     write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
     // Clean up
-    // for (int i = 0; i < local_X_limit; i++) {
-    //     delete[] local_grid[i];
-    // }
-    // delete[] local_grid;
+    for (int i = 0; i < local_X_limit; i++) {
+        delete[] local_grid[i];
+    }
+    delete[] local_grid;
 
-    // delete[] top_ghost_row;
-    // delete[] bottom_ghost_row;
+    delete[] top_ghost_row;
+    delete[] bottom_ghost_row;
 
-    // if (rank == 0) {
-    //     for (int i = 0; i < X_limit; i++) {
-    //         delete[] global_grid[i];
-    //     }
-    //     delete[] global_grid;
-    // }
+    if (rank == 0) {
+        for (int i = 0; i < X_limit; i++) {
+            delete[] global_grid[i];
+        }
+        delete[] global_grid;
+    }
 
     MPI_Finalize();
     return 0;
