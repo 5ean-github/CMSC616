@@ -43,7 +43,6 @@ void read_input_file(int **life, string const &input_file_name) {
 void write_output(int **result_matrix, int X_limit, int Y_limit,
                   string const &input_name, int num_of_generations, int size) {
     
-    printf("asdfiyugas");
 
     // Open the output file for writing.
     ofstream output_file;
