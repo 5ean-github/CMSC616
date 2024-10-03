@@ -243,6 +243,7 @@ int main(int argc, char *argv[]) {
     if (rank == 0)
     write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
+    printf("asdfiyugas");
     // Clean up
     for (int i = 0; i < local_X_limit; i++) {
         delete[] local_grid[i];
