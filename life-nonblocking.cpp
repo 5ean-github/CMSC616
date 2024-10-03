@@ -142,11 +142,11 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        if (rank==1){
+        if (rank==1 && numg == 18){
             printf("%d\n",numg);
             fflush(stdout);
             for (int i=0;i<local_X_limit;i++){
-                for (int j=0;j<Y_limit;j++){
+                for (int j=0;j<25;j++){
                     printf("%d ",local_grid[i][j]);
                     fflush(stdout);
                 }
