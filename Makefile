@@ -14,7 +14,7 @@ serial: serial.cpp
 
 # Target for MPI nonblocking version
 life-nonblocking: life-nonblocking.cpp
-	$(MPICXX) $(MPICXXFLAGS) -o life-nonblocking $<
+	$(MPICXX) $(MPICXXFLAGS) -g -o life-nonblocking $<
 
 # Clean target to remove executables
 clean:
