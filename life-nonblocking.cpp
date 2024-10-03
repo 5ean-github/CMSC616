@@ -51,6 +51,8 @@ void write_output(int **result_matrix, int X_limit, int Y_limit,
     if (!output_file.is_open())
         perror("Output file cannot be opened");
     
+    printf("asdfiyugas");
+
     // Output each live cell on a new line. 
     for (int i = 0; i < X_limit; i++) {
         for (int j = 0; j < Y_limit; j++) {
@@ -243,7 +245,7 @@ int main(int argc, char *argv[]) {
     if (rank == 0)
     write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
 
-    printf("asdfiyugas");
+    
     // Clean up
     for (int i = 0; i < local_X_limit; i++) {
         delete[] local_grid[i];
