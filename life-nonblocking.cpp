@@ -248,6 +248,7 @@ int main(int argc, char *argv[]) {
         delete[] local_grid[i];
     }
     delete[] local_grid;
+    delete[] previous_life;
 
     delete[] top_ghost_row;
     delete[] bottom_ghost_row;
