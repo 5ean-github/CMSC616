@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
         read_input_file(global_grid, input_file_name);
     }
 
-    int* global_grid_1D = new int *[X_limit*Y_limit];
+    int* global_grid_1D = new int [X_limit*Y_limit];
     for (int i=0;i<X_limit;i++){
         for (int j=0;j<Y_limit;j++){
             global_grid_1D[i*Y_limit+j] = global_grid[i][j];
