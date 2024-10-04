@@ -240,6 +240,9 @@ int main(int argc, char *argv[]) {
         delete[] local_grid[i];
     }
     delete[] local_grid;
+    for (int i = 0; i < local_X_limit; i++) {
+        delete[] previous_life[i];
+    }
     delete[] previous_life;
 
     delete[] top_ghost_row;
