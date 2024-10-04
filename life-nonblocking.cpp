@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     int local_X_limit = X_limit / size;
 
     int** local_grid = new int*[local_X_limit];
-    for (int i = 0; i < local_X_limit; ++i) {
+    for (int i = 0; i < local_X_limit; i++) {
         local_grid[i] = new int[Y_limit]();
     }
 
@@ -107,15 +107,41 @@ int main(int argc, char *argv[]) {
     int** global_grid = nullptr;
     if (rank == 0) {
         global_grid = new int*[X_limit];
-        for (int i = 0; i < X_limit; ++i) {
+        for (int i = 0; i < X_limit; i++) {
             global_grid[i] = new int[Y_limit]();
         }
         read_input_file(global_grid, input_file_name);
     }
 
-    for (int i = 0; i < local_X_limit; i++) {
-        MPI_Scatter(global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, local_grid[i], Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
+    int* global_grid_1D = new int *[X_limit*Y_limit];
+    for (int i=0;i<X_limit;i++){
+        for (int j=0;j<Y_limit;j++){
+            global_grid_1D[i*Y_limit+j] = global_grid[i][j];
+        }
     }
+
+    int* local_grid_1D = new int[local_X_limit*Y_limit];
+
+    MPI_Scatter(
+        global_grid_1D,             // Send buffer (only root needs to provide this)
+        local_X_limit*Y_limit,          // Number of elements sent to each process
+        MPI_INT,                    // Data type
+        local_grid_1D,              // Receive buffer (for each process)
+        local_X_limit*Y_limit,          // Number of elements received per process
+        MPI_INT,                    // Data type
+        0,                          // Root process
+        MPI_COMM_WORLD              // Communicator
+    );
+
+    for (int i=0;i<local_X_limit;i++){
+        for (int j=0;j<Y_limit;j++){
+            local_grid[i][j] = local_grid_1D[i*Y_limit+j];
+        }
+    }
+
+    // for (int i = 0; i < local_X_limit; i++) {
+    //     MPI_Scatter(global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, local_grid[i], Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
+    // }
 
     MPI_Request reqs[4];
     int* top_ghost_row = new int[Y_limit];
