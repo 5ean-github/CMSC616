@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Master (rank 0) allocates space for the entire global grid
+    // rank 0 allocates space for the entire global grid
     int** global_grid = nullptr;
     if (rank == 0) {
         global_grid = new int*[X_limit];
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
         MPI_Scatter(global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, local_grid[i], Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
     }
 
-    MPI_Request reqs[4]; // Two sends and two receives
+    MPI_Request reqs[4];
     int* top_ghost_row = new int[Y_limit];
     int* bottom_ghost_row = new int[Y_limit];
 
@@ -125,16 +125,14 @@ int main(int argc, char *argv[]) {
     double start_time = MPI_Wtime();
 
     for (int numg = 0; numg < num_of_generations; numg++) {
-        int up = (rank == 0) ? MPI_PROC_NULL : rank - 1;              // Up neighbor (if at top, use MPI_PROC_NULL)
-        int down = (rank == size - 1) ? MPI_PROC_NULL : rank + 1;     // Down neighbor (if at bottom, use MPI_PROC_NULL)
+        int up = (rank == 0) ? MPI_PROC_NULL : rank - 1;
+        int down = (rank == size - 1) ? MPI_PROC_NULL : rank + 1; 
 
-        // Post non-blocking receives for top and bottom ghost rows
-        MPI_Irecv(top_ghost_row, Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[0]);  // Receive from above
-        MPI_Irecv(bottom_ghost_row, Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[1]);  // Receive from below
+        MPI_Irecv(top_ghost_row, Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[0]); 
+        MPI_Irecv(bottom_ghost_row, Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[1]); 
 
-        // Post non-blocking sends for sending top and bottom rows
-        MPI_Isend(local_grid[0], Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[2]);    // Send top row
-        MPI_Isend(local_grid[local_X_limit - 1], Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[3]);  // Send bottom row
+        MPI_Isend(local_grid[0], Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[2]); 
+        MPI_Isend(local_grid[local_X_limit - 1], Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[3]);
 
         //compute local_grid[1:local_X_limit-1]
 
@@ -169,10 +167,8 @@ int main(int argc, char *argv[]) {
         }
         
 
-        // Wait for all non-blocking communications to complete
         MPI_Waitall(4, reqs, MPI_STATUSES_IGNORE);
 
-        // After receiving the ghost rows, update the boundary rows
         //compute local_grid[0]
         for (int j=0;j<Y_limit;j++){
             int tgrl = (j==0) ? 0 : top_ghost_row[j-1];
@@ -216,16 +212,9 @@ int main(int argc, char *argv[]) {
     double end_time = MPI_Wtime();
     double runtime = end_time - start_time;
 
-    // Variables to hold the min, max, and average runtimes
     double min_runtime, max_runtime, global_runtime_sum, avg_runtime;
-
-    // Use MPI_Reduce to find the minimum runtime
     MPI_Reduce(&runtime, &min_runtime, 1, MPI_DOUBLE, MPI_MIN, 0, MPI_COMM_WORLD);
-
-    // Use MPI_Reduce to find the maximum runtime
     MPI_Reduce(&runtime, &max_runtime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-
-    // Use MPI_Reduce to find the sum of runtimes (to calculate the average later)
     MPI_Reduce(&runtime, &global_runtime_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
