@@ -94,6 +94,8 @@ int main(int argc, char *argv[]) {
         local_grid[i] = new int[Y_limit]();
     }
 
+    cout << 2;
+
     //previous life for local grid 
     int **previous_life = new int *[local_X_limit];
     for (int i = 0; i < local_X_limit; i++) {
@@ -102,6 +104,8 @@ int main(int argc, char *argv[]) {
             previous_life[i][j] = 0;
         }
     }
+
+    cout << 3;
 
     // rank 0 allocates space for the entire global grid
     int** global_grid = nullptr;
@@ -112,6 +116,8 @@ int main(int argc, char *argv[]) {
         }
         read_input_file(global_grid, input_file_name);
     }
+
+    cout << "4";
 
     int* global_grid_1D = new int [X_limit*Y_limit];
     for (int i=0;i<X_limit;i++){
