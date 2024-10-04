@@ -122,6 +122,8 @@ int main(int argc, char *argv[]) {
 
     int* local_grid_1D = new int[local_X_limit*Y_limit];
 
+    cout << "before scatter";
+
     MPI_Scatter(
         global_grid_1D,             // Send buffer (only root needs to provide this)
         local_X_limit*Y_limit,          // Number of elements sent to each process
@@ -132,6 +134,8 @@ int main(int argc, char *argv[]) {
         0,                          // Root process
         MPI_COMM_WORLD              // Communicator
     );
+
+    cout << "after scatet";
 
     for (int i=0;i<local_X_limit;i++){
         for (int j=0;j<Y_limit;j++){
