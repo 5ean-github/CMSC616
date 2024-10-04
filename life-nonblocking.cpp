@@ -69,6 +69,8 @@ void write_output(int **result_matrix, int X_limit, int Y_limit,
   */
 int main(int argc, char *argv[]) {
 
+    cout << 0;
+
     MPI_Init(&argc, &argv);
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -88,6 +90,8 @@ int main(int argc, char *argv[]) {
     int Y_limit = stoi(argv[4]);
 
     int local_X_limit = X_limit / size;
+
+    cout << 1;
 
     int** local_grid = new int*[local_X_limit];
     for (int i = 0; i < local_X_limit; i++) {
