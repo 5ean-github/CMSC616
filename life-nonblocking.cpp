@@ -145,9 +145,7 @@ int main(int argc, char *argv[]) {
     for (int i=0;i<local_X_limit;i++){
         for (int j=0;j<Y_limit;j++){
             local_grid[i][j] = local_grid_1D[i*Y_limit+j];
-            printf("%d ",local_grid[i][j]);
         }
-        printf("\n");
     }
 
     // for (int i = 0; i < local_X_limit; i++) {
@@ -261,15 +259,35 @@ int main(int argc, char *argv[]) {
         printf("Avg Runtime: %f seconds\n", avg_runtime);
     }
 
-    for (int i = 0; i < local_X_limit; i++) {
-        MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
+    for (int i=0;i<local_X_limit;i++){
+        for (int j=0;j<Y_limit;j++){
+            local_grid_1D[i*Y_limit+j] = local_grid[i][j];
+        }
     }
-    if (rank ==0){
-        printf("%d ",global_grid[40][17]);
-        printf("%d ",global_grid[40][18]);
+
+    MPI_Gather(
+        local_grid_1D,              // Send buffer (local grid to send)
+        local_X_limit*Y_limit,          // Number of elements sent from each process
+        MPI_INT,                    // Data type
+        global_grid_1D,             // Receive buffer (root only)
+        local_X_limit*Y_limit,          // Number of elements received from each process
+        MPI_INT,                    // Data type
+        0,                          // Root process
+        MPI_COMM_WORLD              // Communicator
+    );
+
+    if (rank==0){
+        for (int i=0;i<X_limit;i++){
+            for (int j=0;j<Y_limit;j++){
+                global_grid[i][j] = global_grid_1D[i*Y_limit+j];
+            }
+        }
+        write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
     }
-    if (rank == 0)
-    write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
+    // for (int i = 0; i < local_X_limit; i++) {
+    //     MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
+    // }
+
 
     
     // Clean up
