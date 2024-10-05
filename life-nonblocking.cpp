@@ -169,6 +169,10 @@ int main(int argc, char *argv[]) {
         MPI_Isend(local_grid[0], Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[2]); 
         MPI_Isend(local_grid[local_X_limit - 1], Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[3]);
 
+        if (rank==0){
+            printf("%d\n",top_ghost_row[0]);
+        }
+
         //compute local_grid[1:local_X_limit-1]
 
         for (int i = 0; i < local_X_limit; i++) {
