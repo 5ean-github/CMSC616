@@ -236,12 +236,6 @@ int main(int argc, char *argv[]) {
             }
             }
         }
-        if (rank==1 && numg == 18){
-            printf("%d\n",numg);
-            printf("%d ",local_grid[8][17]);
-            printf("%d ",local_grid[8][18]);
-            fflush(stdout);
-        }
         
     }
     double end_time = MPI_Wtime();
@@ -254,9 +248,7 @@ int main(int argc, char *argv[]) {
 
     if (rank == 0) {
         avg_runtime = global_runtime_sum / size;
-        printf("Min Runtime: %f seconds\n", min_runtime);
-        printf("Max Runtime: %f seconds\n", max_runtime);
-        printf("Avg Runtime: %f seconds\n", avg_runtime);
+        cout << "TIME: Min: " << local_time << " s Avg: " << local_time << " s Max: " << local_time << " s\n";
     }
 
     for (int i=0;i<local_X_limit;i++){
