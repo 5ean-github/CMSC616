@@ -248,7 +248,7 @@ int main(int argc, char *argv[]) {
 
     if (rank == 0) {
         avg_runtime = global_runtime_sum / size;
-        cout << "TIME: Min: " << local_time << " s Avg: " << local_time << " s Max: " << local_time << " s\n";
+        cout << "TIME: Min: " << min_runtime << " s Avg: " << max_runtime << " s Max: " << avg_runtime << " s\n";
     }
 
     for (int i=0;i<local_X_limit;i++){
