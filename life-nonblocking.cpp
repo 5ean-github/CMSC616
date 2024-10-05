@@ -90,14 +90,11 @@ int main(int argc, char *argv[]) {
 
     int local_X_limit = X_limit / size;
 
-
     int** local_grid = new int*[local_X_limit];
     for (int i = 0; i < local_X_limit; i++) {
         local_grid[i] = new int[Y_limit]();
     }
 
-
-    //previous life for local grid 
     int **previous_life = new int *[local_X_limit];
     for (int i = 0; i < local_X_limit; i++) {
         previous_life[i] = new int[Y_limit+2];
@@ -107,7 +104,6 @@ int main(int argc, char *argv[]) {
     }
 
 
-    // rank 0 allocates space for the entire global grid
     int** global_grid = nullptr;
     int* global_grid_1D = nullptr;
     if (rank == 0) {
@@ -124,23 +120,18 @@ int main(int argc, char *argv[]) {
         }
     }
 
-
-    
-
     int* local_grid_1D = new int[local_X_limit*Y_limit];
 
-
     MPI_Scatter(
-        global_grid_1D,             // Send buffer (only root needs to provide this)
-        local_X_limit*Y_limit,          // Number of elements sent to each process
-        MPI_INT,                    // Data type
-        local_grid_1D,              // Receive buffer (for each process)
-        local_X_limit*Y_limit,          // Number of elements received per process
-        MPI_INT,                    // Data type
-        0,                          // Root process
-        MPI_COMM_WORLD              // Communicator
+        global_grid_1D,             
+        local_X_limit*Y_limit,      
+        MPI_INT,                    
+        local_grid_1D,              
+        local_X_limit*Y_limit,      
+        MPI_INT,                    
+        0,                          
+        MPI_COMM_WORLD              
     );
-
 
     for (int i=0;i<local_X_limit;i++){
         for (int j=0;j<Y_limit;j++){
@@ -148,11 +139,9 @@ int main(int argc, char *argv[]) {
         }
     }
 
-
     MPI_Request reqs[4];
     int* top_ghost_row = new int[Y_limit]();
     int* bottom_ghost_row = new int[Y_limit]();
-
 
     double start_time = MPI_Wtime();
 
@@ -174,8 +163,6 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        
-        //previous_life: local_X_limit*(Y_limit+2)
         int neighbors = 0;
         for (int i = 1; i < local_X_limit - 1; i++) {
             for (int j = 0; j < Y_limit; j++) {
@@ -198,7 +185,6 @@ int main(int argc, char *argv[]) {
             }
         }
         
-
         MPI_Waitall(4, reqs, MPI_STATUSES_IGNORE);
 
         //compute local_grid[0]
@@ -255,14 +241,14 @@ int main(int argc, char *argv[]) {
     }
 
     MPI_Gather(
-        local_grid_1D,              // Send buffer (local grid to send)
-        local_X_limit*Y_limit,          // Number of elements sent from each process
-        MPI_INT,                    // Data type
-        global_grid_1D,             // Receive buffer (root only)
-        local_X_limit*Y_limit,          // Number of elements received from each process
-        MPI_INT,                    // Data type
-        0,                          // Root process
-        MPI_COMM_WORLD              // Communicator
+        local_grid_1D,              
+        local_X_limit*Y_limit,      
+        MPI_INT,                    
+        global_grid_1D,             
+        local_X_limit*Y_limit,      
+        MPI_INT,                    
+        0,                          
+        MPI_COMM_WORLD              
     );
 
     if (rank==0){
@@ -273,9 +259,7 @@ int main(int argc, char *argv[]) {
         }
         write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
     }
-
     
-    // Clean up
     for (int i = 0; i < local_X_limit; i++) {
         delete[] local_grid[i];
     }
