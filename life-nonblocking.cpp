@@ -153,8 +153,8 @@ int main(int argc, char *argv[]) {
     // }
 
     MPI_Request reqs[4];
-    int* top_ghost_row = new int[Y_limit];
-    int* bottom_ghost_row = new int[Y_limit];
+    int* top_ghost_row = new int[Y_limit]();
+    int* bottom_ghost_row = new int[Y_limit]();
 
 
     double start_time = MPI_Wtime();
