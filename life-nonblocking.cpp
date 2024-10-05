@@ -148,9 +148,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // for (int i = 0; i < local_X_limit; i++) {
-    //     MPI_Scatter(global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, local_grid[i], Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
-    // }
 
     MPI_Request reqs[4];
     int* top_ghost_row = new int[Y_limit]();
@@ -168,10 +165,6 @@ int main(int argc, char *argv[]) {
 
         MPI_Isend(local_grid[0], Y_limit, MPI_INT, up, 0, MPI_COMM_WORLD, &reqs[2]); 
         MPI_Isend(local_grid[local_X_limit - 1], Y_limit, MPI_INT, down, 0, MPI_COMM_WORLD, &reqs[3]);
-
-        if (rank==0){
-            printf("%d\n",top_ghost_row[0]);
-        }
 
         //compute local_grid[1:local_X_limit-1]
 
@@ -280,10 +273,6 @@ int main(int argc, char *argv[]) {
         }
         write_output(global_grid, X_limit, Y_limit, input_file_name, num_of_generations,size);
     }
-    // for (int i = 0; i < local_X_limit; i++) {
-    //     MPI_Gather(local_grid[i], Y_limit, MPI_INT, global_grid ? global_grid[i] : MPI_IN_PLACE, Y_limit, MPI_INT, 0, MPI_COMM_WORLD);
-    // }
-
 
     
     // Clean up
@@ -291,6 +280,7 @@ int main(int argc, char *argv[]) {
         delete[] local_grid[i];
     }
     delete[] local_grid;
+    delete[] local_grid_1D;
     for (int i = 0; i < local_X_limit; i++) {
         delete[] previous_life[i];
     }
@@ -304,6 +294,7 @@ int main(int argc, char *argv[]) {
             delete[] global_grid[i];
         }
         delete[] global_grid;
+        delete[] global_grid_1D;
     }
 
     MPI_Finalize();
