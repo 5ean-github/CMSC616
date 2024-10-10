@@ -47,8 +47,8 @@ void write_output(int **result_matrix, int X_limit, int Y_limit,
     // Open the output file for writing.
     ofstream output_file;
     string input_file_name = input_name.substr(0, input_name.length() - 5);
-    output_file.open(input_file_name + "." + to_string(num_of_generations) + "." + to_string(size) + 
-                    "_parallel.csv");
+    output_file.open(input_file_name + "." + to_string(num_of_generations) + 
+                    ".csv");
     if (!output_file.is_open())
         perror("Output file cannot be opened");
     

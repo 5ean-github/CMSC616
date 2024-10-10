@@ -1,4 +1,4 @@
-all: serial life-nonblocking
+all: life-nonblocking
 
 # Compiler for serial
 CXX = g++
@@ -9,8 +9,8 @@ MPICXX = mpicxx
 MPICXXFLAGS = -std=c++11 -O2
 
 # Target for serial version
-serial: serial.cpp
-	$(CXX) $(CXXFLAGS) -o life $<
+# serial: serial.cpp
+# 	$(CXX) $(CXXFLAGS) -o life $<
 
 # Target for MPI nonblocking version
 life-nonblocking: life-nonblocking.cpp
